@@ -1,6 +1,6 @@
-def octact_identification(mod=5000):
-###Code
+# I have used pandas module for my code
+import csv
+import pandas as pd
+vel=pd.read_csv("octant_input.csv")
 
-
-mod=5000
-octact_identification(mod)
+#uptill now we have read the input file
