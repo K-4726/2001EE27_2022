@@ -38,7 +38,35 @@ mod = 5000
 #
  
 # counts printing
-dt =  {1:0,-1:0,2:0,-2:0,3:0,-3:0,-4:0,4:0}
-velo1 = velocity['octant'].value_counts()
-print(dt)
+data =  {1:0,-1:0,2:0,-2:0,3:0,-3:0,-4:0,4:0}
+velo1 = velocity['OCTANT'].value_counts()
+print(data)
 velo2 = pd.DataFrame(columns=range(30000))
+
+# ID of actant for all values
+velocity['Assigned Octant']=' '
+velocity['1']=' '
+velocity['-1']=' '
+velocity['2']=' '
+velocity['-2']=' '
+velocity['3']=' '
+velocity['-3']=' '
+velocity['4']=' '
+velocity['-4']=' '
+
+# loop over our defined column 
+for i in velocity['OCTANT']:
+  data[i]+=1
+
+
+velocity['1'][0]=data[1]
+velocity['-1'][0]=data[-1]
+velocity['2'][0]=data[2]
+velocity['-2'][0]=data[-2]
+velocity['3'][0]=data[3]
+velocity['-3'][0]=data[-3]
+velocity['4'][0]=data[4]
+velocity['-4'][0]=data[-4] 
+
+velocity['Assigned Octant'][1]='Mod(intial hardcode 5000)'
+
