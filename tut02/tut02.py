@@ -1,7 +1,7 @@
 import pandas as pd
 import math
 # reading a csv file using pandas
-velocity = pd.read_xlsx("octant_input.xlsx")
+velocity = pd.read_excel('./input_octant_transition_identify.xlsx')
 
 
 velocity.loc[0, "U_Avg"] = velocity["U"].mean()
@@ -217,3 +217,113 @@ for j in range(dat):
     velocity.loc[t3, "-4"] = t1
     t3 = t3+1
     t1 = 0
+
+
+m = n = j
+velocity.loc[m+4, ""] = "From"
+velocity.loc[m+1, "overall id"] = "Overall Transition Count"
+velocity.loc[m+2, "+1"] = "To"
+velocity.loc[m+3, "overall id"] = "Count"
+
+
+n = n+4
+num = len(velocity)-1
+
+
+l = n
+for i in range(num):
+    str1 = velocity['Octant'][i]
+    str2 = velocity['Octant'][i+1]
+    if str2 == '+1':
+        velocity.iat[n, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '-1':
+        velocity.iat[n+1, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '+2':
+        velocity.iat[n+2, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '-2':
+        velocity.iat[n+3, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '+3':
+        velocity.iat[n+4, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '-3':
+        velocity.iat[n+5, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '+4':
+        velocity.iat[n+6, velocity.columns.get_loc(str1)] = 0
+    elif str2 == '-4':
+        velocity.iat[n+7, velocity.columns.get_loc(str1)] = 0
+# f.to_csv('./octant_output.csvout.csv')
+
+
+for i in range(num):
+    str1 = velocity['Octant'][i]
+    str2 = velocity['Octant'][i+1]
+    if str2 == '+1':
+        velocity.iat[l, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '-1':
+        velocity.iat[l+1, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '+2':
+        velocity.iat[l+2, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '-2':
+        velocity.iat[l+3, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '+3':
+        velocity.iat[l+4, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '-3':
+        velocity.iat[l+5, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '+4':
+        velocity.iat[l+6, velocity.columns.get_loc(str1)] += 1
+    elif str2 == '-4':
+        velocity.iat[l+7, velocity.columns.get_loc(str1)] += 1
+
+velocity.to_csv('./octant_output.csvout.csv')
+
+
+n = n+10
+for x in range(0, num, mod):
+    for i in range(x, mod+x, 1):
+        if (i >= num):
+            break
+
+        str1 = velocity['Octant'][i]
+        str2 = velocity['Octant'][i+1]
+        if str2 == '+1':
+            velocity.iat[n, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '-1':
+            velocity.iat[n+1, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '+2':
+            velocity.iat[n+2, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '-2':
+            velocity.iat[n+3, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '+3':
+            velocity.iat[n+4, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '-3':
+            velocity.iat[n+5, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '+4':
+            velocity.iat[n+6, velocity.columns.get_loc(str1)] = 0
+        elif str2 == '-4':
+            velocity.iat[n+7, velocity.columns.get_loc(str1)] = 0
+
+    for i in range(x, mod+x, 1):
+        if (i >= num):
+            break
+        l = n
+        str1 = velocity['Octant'][i]
+        str2 = velocity['Octant'][i+1]
+        if str2 == '+1':
+            velocity.iat[l, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '-1':
+            velocity.iat[l+1, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '+2':
+            velocity.iat[l+2, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '-2':
+            velocity.iat[l+3, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '+3':
+            velocity.iat[l+4, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '-3':
+            velocity.iat[l+5, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '+4':
+            velocity.iat[l+6, velocity.columns.get_loc(str1)] += 1
+        elif str2 == '-4':
+            velocity.iat[l+7, velocity.columns.get_loc(str1)] += 1
+
+    n += 10
+
+velocity.to_excel('./output_octant_transition_identify.xlsx')
