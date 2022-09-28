@@ -1,12 +1,12 @@
 import pandas as pd
 import math
 # reading a csv file using pandas
-velocity = pd.read_csv("octant_input.csv")
+velocity = pd.read_xlsx("octant_input.xlsx")
 
 
-velocity.loc[0, "U_Avg"] = f["U"].mean()
-velocity.loc[0, "V_Avg"] = f["V"].mean()
-velocity.loc[0, "W_Avg"] = f["W"].mean()
+velocity.loc[0, "U_Avg"] = velocity["U"].mean()
+velocity.loc[0, "V_Avg"] = velocity["V"].mean()
+velocity.loc[0, "W_Avg"] = velocity["W"].mean()
 var1 = velocity["U"].mean()
 var2 = velocity["V"].mean()
 var3 = velocity["W"].mean()
@@ -70,3 +70,150 @@ velocity.loc[0, "+3"] = h["+3"]
 velocity.loc[0, "-3"] = h["-3"]  
 velocity.loc[0, "+4"] = h["+4"]  
 velocity.loc[0, "-4"] = h["-4"]  
+
+
+# the following logic has to be repeated 2^3 ie 8 times
+
+#first time for +1
+t1 = 0  
+t2 = 0
+t3 = 2
+j = 0
+
+for j in range(dat):  # running the loop d times according to mod value
+    for i in range(mod):  # running the loop according to mod value
+        if velocity["Octant"][t2] == "+1":  # if octant is +1
+            t1= t1+1  # incrementing the q value by 1
+        t2 = t2+1
+        if t2 == 29745:
+            j = dat+1  # if r reached the last value then break the statment
+            break  # break statement
+    j = j+1
+    velocity.loc[t3, "+1"] = t1
+    t3 = t3+1
+    t1 = 0
+
+# second time -1
+q = 0  
+r = 0
+p = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][r] == "-1":  # if octant is -1
+            q = q+1  # incrementing the q value by 1
+        r = r+1
+        if r == 29745:
+            j = dat+1
+            break  # break statement
+    j = j+1
+    velocity.loc[p, "-1"] = q
+    p = p+1
+    q = 0
+
+#third time +2 p=v3,q=v1,r=v2
+v1 = 0  
+v2 = 0
+v3 = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][v2] == "+2":  # if octant is +2
+            v1 = v1+1  # incrementing the q value by 1
+        v2 = v2+1
+        if v2 == 29745:
+            j = dat+1
+            break  # break statement
+    velocity.loc[v3, "+2"] = v1
+    v3 = v3+1
+    v1= 0
+
+#4th time -2
+a = 0  # creating  a variable for individual count
+b = 0
+c = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][b] == "-2":  # if octant is -2
+            a = a+1  # incrementing the q value by 1
+        b = b+1
+        if b == 29745:
+            j = dat+1
+            break  # break statement
+    j = j+1
+    velocity.loc[c, "-2"] = a
+    c = c+1
+    a = 0
+
+#5th time +3
+q = 0  # creating  a variable for individual count
+r = 0
+p = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][r] == "+3":  # if octant is +3
+            q = q+1  # incrementing the q value by 1
+        r = r+1
+        if r == 29745:
+            j = dat+1
+            break  # break statement
+    j = j+1
+    velocity.loc[p, "+3"] = q
+    p = p+1
+    q = 0
+
+#6th time -3
+v1 = 0  # creating  a variable for individual count
+v2 = 0
+v3 = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][v2] == "-3":  # if octant is -3
+            v1 = v1+1  # incrementing the q value by 1
+        v2 = v2+1
+        if v2 == 29745:
+            j = dat+1
+            break  # break statement
+    j = j+1
+    velocity.loc[v3, "-3"] = v1
+    v3 = v3+1
+    v1 = 0
+
+
+q = 0  # creating  a variable for individual count
+r = 0
+p = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][r] == "+4":  # if octant is +4
+            q = q+1  # incrementing the q value by 1
+        r = r+1
+        if r == 29745:
+            j = dat+1
+            break  # break statement
+    j = j+1
+    velocity.loc[p, "+4"] = q
+    p = p+1
+    q = 0
+
+
+t1 = 0  # creating  a variable for individual count
+t2 = 0
+t3 = 2
+j = 0
+for j in range(dat):
+    for i in range(mod):
+        if velocity["Octant"][t2] == "-4":  # if octant is -4
+            t1 = t1+1  # incrementing the q value by 1
+        t2 = t2+1
+        if t2 == 29745:
+            j = dat+1
+            break  # break statement
+    j = j+1
+    velocity.loc[t3, "-4"] = t1
+    t3 = t3+1
+    t1 = 0
