@@ -1,8 +1,10 @@
 import pandas as pd
 import math
 # reading a csv file using pandas
-velocity = pd.read_excel('./input_octant_transition_identify.xlsx')
-
+try:
+ velocity = pd.read_excel('./input_octant_transition_identify.xlsx')
+except:
+    print("Error file not found")
 
 velocity.loc[0, "U_Avg"] = velocity["U"].mean()
 velocity.loc[0, "V_Avg"] = velocity["V"].mean()
@@ -36,8 +38,8 @@ velocity.loc[0, "overall id"] = "overall count"
 
 #mod value can be changed from here
 
-mod = int(input("Enter mod value : "))
-
+# mod = int(input("Enter mod value : "))
+mod=5000
 y = str(mod)  # conveting int to str
 
 #
@@ -325,5 +327,8 @@ for x in range(0, num, mod):
             velocity.iat[l+7, velocity.columns.get_loc(str1)] += 1
 
     n += 10
-
-velocity.to_excel('./output_octant_transition_identify.xlsx')
+try:
+ velocity.to_excel('./output_octant_transition_identify.xlsx')
+except:
+    print("Error file cannot be created")
+print("Execution successful")
