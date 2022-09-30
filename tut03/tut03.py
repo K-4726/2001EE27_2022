@@ -80,3 +80,44 @@ for i in range(1, n):
         tmp_Cnt_Seq = [1, 1, 1, 1, 1, 1, 1, 1]
 
 # uptill now we have the final counts of longest subsequence for each octant 
+
+#now we have to calculate the count l_s_l for each octant
+count_longest_subsequence_length = [0, 0, 0, 0, 0, 0, 0, 0]
+
+temp = [1, 1, 1, 1, 1, 1, 1, 1] # declaring initial counts to 1
+
+for i in range(1, n):
+    str = velocity["Octant"][i-1]
+    # loop to get the l_s_l of each octant
+    if velocity["Octant"][i] == velocity["Octant"][i-1]:
+        if str == "+1":
+            temp[0] += 1
+        elif str == "-1":
+            temp[1] += 1
+        elif str == "+2":
+            temp[2] += 1
+        elif str == "-2":
+            temp[3] += 1
+        elif str == "+3":
+            temp[4] += 1
+        elif str == "-3":
+            temp[5] += 1
+        elif str == "+4":
+            temp[6] += 1
+        elif str == "-4":
+            temp[7] += 1
+    else:
+        for j in range(8):
+            # when we find one more l_s_l for our octant we add 1 to it
+            if temp[j] == longest_subsequence_length[j] and temp[j] != 1:
+                count_longest_subsequence_length[j] += 1
+            # else set the count to total count for that particular octant
+            elif temp[j] == longest_subsequence_length[j] and temp[j] == 1 :
+                count_longest_subsequence_length[j] = total_count[j]
+                  
+        # once the above loop is done... 
+        #reset the temp counts to 1
+        temp = [1, 1, 1, 1, 1, 1, 1, 1]
+        # continue towards the outer loop
+
+
