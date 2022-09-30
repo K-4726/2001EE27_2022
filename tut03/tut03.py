@@ -2,7 +2,10 @@ from platform import python_version
 import pandas as pd
 import math
 
-velocity = pd.read_excel('input_octant_longest_subsequence.xlsx')
+try:
+ velocity = pd.read_excel('input_octant_longest_subsequence.xlsx')
+except:
+ print("Some error occurred")
 
 #finding mean and subtracting from each values
 velocity.loc[0, "U_Avg"] = velocity["U"].mean()
@@ -120,4 +123,28 @@ for i in range(1, n):
         temp = [1, 1, 1, 1, 1, 1, 1, 1]
         # continue towards the outer loop
 
+# now finally we create columns according to our output file (sample)
+velocity[" "]=""
+velocity["Count"]=""
+velocity["Longest Subsequence Length"]="" # longest subsequence length of each octant
+velocity["Count2"]="" # count of l_s_l for each octant
 
+velocity.loc[0, "Count"] = "+1"
+velocity.loc[1, "Count"] = "-1"
+velocity.loc[2, "Count"] = "+2"
+velocity.loc[3, "Count"] = "-2"
+velocity.loc[4, "Count"] = "+3"
+velocity.loc[5, "Count"] = "-3"
+velocity.loc[6, "Count"] = "+4"
+velocity.loc[7, "Count"] = "-4"
+
+for i in range(8):
+    velocity.loc[i,"Longest Subsequence Length"]=longest_subsequence_length[i]
+    velocity.loc[i,"Count2"]=count_longest_subsequence_length[i]
+
+try:
+ velocity.to_excel("output_octant_longest_subsequence.xlsx")
+except:
+ print("Some error occured")
+
+print("Execution Successfull and Output file created")
