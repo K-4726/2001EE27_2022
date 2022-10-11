@@ -58,6 +58,31 @@ while var <= num:
                 break
             j += 1
         except:
-            print("row not found")
+            print("Error: this row is not found")
     LongSub[velocity["Octant"][var]] = max(LongSub[velocity["Octant"][var]], curr_cnt)
     var = j
+
+# Creating a dictionary, basically a map type logic
+mapng = { 0 : "+1" , 1 : "-1",  2 : "+2" , 3 : "-2", 4 : "+3" , 5 : "-3" , 6 : "+4", 7 : "-4"}
+
+for i in range(8):
+    try:  
+        velocity.loc[i , "count"] = mapng[i]
+    except:
+        print("Error: this row was not found")
+        
+for i in range(8):
+    try:
+        velocity.loc[i, "Longest Subsquence Length"] =LongSub[mapng[i]]
+    except:
+        print("Error: this row was not found")
+        
+        
+var2 = 0
+    
+# This dictionary will be counting number of longest subsequences for each octant
+count_Long_Sub = {"-1" : 0, "+1" : 0 ,  "-2" : 0 , "+2" : 0 , "-3" : 0 , "+3" : 0 , "-4" : 0, "+4" : 0}
+
+#  for each octant's longest subsequence Creating list of strings(Time Ranges)
+range_of_Long_Sub = {"-1" : [], "+1" : [] ,  "-2" : [] , "+2" : [] , "-3" : [] , "+3" : [], "-4" : [], "+4" : []}
+    
