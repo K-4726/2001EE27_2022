@@ -7,6 +7,7 @@ velocity = pd.read_excel("input_octant_longest_subsequence_with_range.xlsx")
 num = len(velocity) - 1
 
 def octant_longest_subsequence_count():
+    print("Please wait while the Output file is being created and updated with answers.")
     velocity.loc[0, "U_Avg"] = velocity["U"].mean()
     velocity.loc[0, "V_Avg"] = velocity["V"].mean()
     velocity.loc[0, "W_Avg"] = velocity["W"].mean()
@@ -142,7 +143,7 @@ def octant_longest_subsequence_count():
 
     # seeing out
     velocity.to_excel('./output_octant_longest_subsequence_with_range.xlsx')
-    print("The Output file is ready.")
+    print("The Output file is ready :) ")
 ver = python_version()
 
 if ver == "3.8.10":
