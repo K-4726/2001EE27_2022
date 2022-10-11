@@ -85,4 +85,59 @@ count_Long_Sub = {"-1" : 0, "+1" : 0 ,  "-2" : 0 , "+2" : 0 , "-3" : 0 , "+3" : 
 
 #  for each octant's longest subsequence Creating list of strings(Time Ranges)
 range_of_Long_Sub = {"-1" : [], "+1" : [] ,  "-2" : [] , "+2" : [] , "-3" : [] , "+3" : [], "-4" : [], "+4" : []}
+
+# in the following while loop I will append the timerange to range of long subcount 
+while var2 <= num:
+        curr_cnt = 0
+        octant1 = ""
+        #trying to add a try and except here
+        try:
+            octant1 = velocity["Octant"][var2]
+            j = var2
+            while j <= num:
+            
+                octant2= velocity["Octant"][j]
+                if(octant2 == octant1):
+                    curr_cnt +=1 
+                else:
+                    break
+                j += 1
+        except:
+                print("Error Row not found")
+          
+        if(curr_cnt == LongSub[octant1]):
+            count_Long_Sub[octant1] += 1 
+            # form var2 till j-1
+            try:
+                timeRange = str(velocity["Time"][var2]) + "," + str(velocity["Time"][j-1])
+                range_of_Long_Sub[octant1].append(timeRange)
+            except:
+                print("Error: Invalid mod value or invalid data or Excel file is empty") 
+            
+        var2 = j
+
+ind2 = 0 
+
+
+for index1 in range(8):
+    velocity.loc[index1, "Count"] = count_Long_Sub[mapng[index1]]
+    currOctant = mapng[index1]
     
+    velocity.loc[ind2, "count2"] = currOctant
+    velocity.loc[ind2, "Longest Subsquence Length2"] = LongSub[currOctant]
+    velocity.loc[ind2, "Count2"] = count_Long_Sub[currOctant]
+    
+    ind2 += 1
+    velocity.loc[ind2, "count2"] = "Time"
+    velocity.loc[ind2, "Longest Subsquence Length2"] = "From"
+    velocity.loc[ind2, "Count2"] = "To"
+    
+    ind2 += 1
+    for timeRange in range_of_Long_Sub[currOctant]:
+        lst = timeRange.split(",")
+        velocity.loc[ind2, "Longest Subsquence Length2"]  = lst[0]
+        velocity.loc[ind2, "Count2"] = lst[1]
+        ind2 += 1
+
+# seeing out
+velocity.to_excel('./output_octant_longest_subsequence_with_range.xlsx')
