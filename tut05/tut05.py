@@ -4,6 +4,7 @@ start_time = datetime.now()
 
 
 def octant_range_names(mod=5000):
+    print("Please");
     #A function to find the count in each intervals
     octact_identification(mod)
 
@@ -45,6 +46,30 @@ def octant_range_names(mod=5000):
             if oct_rank[oct] == 1:
                 counts_rank1 += 1
         velocity.at[12 + i, 2] = counts_rank1
+
+
+def octact_identification(mod=5000):
+    # The mod range value  added to the output file
+    velocity.at[1, 'Octant ID'] = 'Mod ' + str(mod)
+
+    #An array wirh boundary values for each mod intervals
+    range_values = [0]
+    while range_values[-1] < len(velocity.index):
+        range_values.append(range_values[-1] + mod)
+    range_values[-1] = len(velocity.index)
+
+    #The total count of octant occured are evaluated for each mod intervals
+    for i in range(len(range_values) - 1):
+
+        #found  range label and added it to the 'mod_ranges' dictionary inside the 'octant_counts' dictionary and o/p file
+        range_name = str(range_values[i]) + " - " + str(range_values[i + 1] - 1)
+        octant_counts['mod_ranges'][range_name] = {}
+        velocity.at[2 + i, 'Octant ID'] = range_name
+
+        # evaluation of occurances in given range for octants
+        for oct in [1, -1, 2, -2, 3, -3, 4, -4]:
+            octant_counts['mod_ranges'][range_name][oct] = velocity['Octant'].iloc[range_values[i]:(range_values[i + 1])].value_counts()[oct]
+            velocity.at[2 + i, oct] = octant_counts['mod_ranges'][range_name][oct] 
 
 try:
     from platform import python_version
@@ -112,6 +137,7 @@ except FileNotFoundError:
 except ImportError:
     print("ERROR: 'pandas' was not recognised.")
 
+print("Output  ")
 end_time = datetime.now()
 #total duration of the execution of our program
 print('Duration of Program Execution: {}'.format(end_time - start_time))
