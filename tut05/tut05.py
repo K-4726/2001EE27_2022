@@ -11,10 +11,10 @@ if ver == "3.8.10":
 else:
     print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
 
-# reading the input file
+#Opening the input excel file
 velocity = pd.read_excel('octant_input.xlsx')
 
-# Calcuation of the mean or average values
+# Calculation of the mean value of U, V, W
 velocity.at[0, 'U Avg'] = velocity['U'].mean()
 velocity.at[0, 'V Avg'] = velocity['V'].mean()
 velocity.at[0, 'W Avg'] = velocity['W'].mean()
@@ -24,7 +24,7 @@ velocity["U'=U - U avg"] = velocity['U'] - velocity['U Avg'][0]
 velocity["V'=V - V avg"] = velocity['V'] - velocity['V Avg'][0]
 velocity["W'=W - W avg"] = velocity['W'] - velocity['W Avg'][0]
 
-#The value of the respective octants
+#Identification of octant values
 for i in range(len(velocity)):
     if(velocity["U'=U - U avg"][i] > 0 and velocity["V'=V - V avg"][i] > 0):
         velocity.at[i, 'Octant'] = int(1)
@@ -37,23 +37,25 @@ for i in range(len(velocity)):
     if(velocity["W'=W - W avg"][i] < 0):
         velocity.at[i, 'Octant'] = velocity['Octant'][i] * -1
 
-# 'User Input' and 'Overall Count'
+#Adding 'User Input' and 'Overall Count' 
 velocity.at[1, ''] = 'User Input'
 velocity.at[0, 'Octant ID'] = 'Overall Count'
 
-#to find the overall octant counts and each mod ranges we have the following dictionary
+#A dictionary is created to find the overall octant counts and each mod ranges
 octant_counts = {'overall': {}, 'mod_ranges': {}}
 
-#The count of all the occurance in each octant 
+#The count of all the occurance in each octant is added to the dictionary and output file
 for oct in [1, -1, 2, -2, 3, -3, 4, -4]:
     octant_counts['overall'][oct] = velocity['Octant'].value_counts()[oct]
     velocity.at[0, oct] = octant_counts['overall'][oct]
 
-# mod value
+# the mod value
     
-mod=5000 
+mod=5000
 
 #
-# a function which I will define later in commits
+
+# a function to be done in later commits
 octant_range_names(mod)
+
 velocity.to_excel('octant_output_ranking_excel.xlsx', index = None)
