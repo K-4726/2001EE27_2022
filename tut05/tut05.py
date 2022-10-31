@@ -4,7 +4,7 @@ start_time = datetime.now()
 
 
 def octant_range_names(mod=5000):
-    print("Please");
+    print("Please wait while the output file is processed. :]");
     #A function to find the count in each intervals
     octact_identification(mod)
 
@@ -93,7 +93,7 @@ try:
     velocity["U'=U - U avg"] = velocity['U'] - velocity['U Avg'][0]
     velocity["V'=V - V avg"] = velocity['V'] - velocity['V Avg'][0]
     velocity["W'=W - W avg"] = velocity['W'] - velocity['W Avg'][0]
-
+    print("Program execution started successfully.")
     #Identification of octant values
     for i in range(len(velocity)):
         if(velocity["U'=U - U avg"][i] > 0 and velocity["V'=V - V avg"][i] > 0):
@@ -137,7 +137,7 @@ except FileNotFoundError:
 except ImportError:
     print("ERROR: 'pandas' was not recognised.")
 
-print("Output  ")
+print("Output file is ready ^_^ ")
 end_time = datetime.now()
 #total duration of the execution of our program
 print('Duration of Program Execution: {}'.format(end_time - start_time))
