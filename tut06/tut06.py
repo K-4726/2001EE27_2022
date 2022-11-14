@@ -11,12 +11,14 @@ else:
 import pandas as pd
 import csv
 # We read the input files into a pandas dataframe each
-reg_students=pd.read_csv("input_registered_students.csv")
+all_students=pd.read_csv("input_registered_students.csv")
 df=pd.read_csv("input_attendance.csv")
 dfc=pd.DataFrame()
 
-dfc['Roll']=reg_students['Roll No'].copy()
-dfc['Name']=reg_students['Name'].copy()
+dfc['Roll']=all_students['Roll No'].copy()
+dfc['Name']=all_students['Name'].copy()
 
 actual_attendance=[]
-attendance_report()
+
+
+dfc.to_excel('./output/attendance_report_consolidated.xlsx',index=False)
