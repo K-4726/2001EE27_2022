@@ -7,12 +7,38 @@ def attendance_report():
     #to get list of dates in which lectures were taken considering all  'Monday' and 'Thursday'
     date_list = list({datetime.strptime(str(i).split(" ")[0],"%d-%m-%Y").date() for i in df['Timestamp']  if datetime.strptime(str(i).split(" ")[0],"%d-%m-%Y").strftime('%a') in ['Mon','Thu']})
     date_list.sort()
-    # We define a dictionary for storing the duplicate entries for each date
+
+    # we have to manage the duplicate entries of each date
+    # so lets define a dictionary
     duplicate = {date : {} for date in date_list}
     duplicate_info = {roll_number : {date.strftime('%d-%m-%Y') : 0 for date in date_list} for roll_number in roll_nums}
     attended_dates = {roll_number : [] for roll_number in roll_nums}
     fake_attendance=[]
     fake_info = {roll_number : {date.strftime('%d-%m-%Y') : 0 for date in date_list} for roll_number in roll_nums}
+
+    #we have to segregate the students with fake, duplicate and actual attendance
+    # just running a loop for the same
+    for i in range(len(df['Timestamp'])):
+        date_obj = datetime.strptime(str(df['Timestamp'][i]), '%d-%m-%Y %H:%M')
+        date = date_obj.date()
+        #person attending monday and thursday
+        if date_obj.weekday() == 0 or date_obj.weekday() == 3:
+            if(date_obj.hour<14 or date_obj.hour>=15):
+                fake_attendance.append((str(df['Attendance'][i])).split(" ")[0])
+                fake_info[(str(df['Attendance'][i])).split(" ")[0]][date.strftime('%d-%m-%Y')]+=1
+            if(date_obj.hour==14):
+                student_roll_no=(str(df['Attendance'][i])).split(" ")[0]
+                if student_roll_no == 'nan' or student_roll_no not in roll_nums:
+                    continue
+                if student_roll_no in duplicate[date]:
+                    duplicate[date][student_roll_no]['entries'].append(date_obj)
+                    duplicate_info[(str(df['Attendance'][i])).split(" ")[0]][date.strftime('%d-%m-%Y')]+=1
+                else:
+                    duplicate[date][student_roll_no] = {'name': df['Attendance'][i].split(' ', 1)[1], 'entries': [date_obj]}
+                    attended_dates[student_roll_no].append(date.strftime('%d-%m-%Y'))
+                    actual_attendance.append(student_roll_no)       
+        else:
+            fake_attendance.append((str(df['Attendance'][i])).split(" ")[0])
 
 try:
     from platform import python_version
