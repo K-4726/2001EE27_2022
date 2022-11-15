@@ -407,8 +407,9 @@ def Lol(velocity, m):
     velocity.loc[m, "-4  "] = '-4'
     velocity.loc[m+8, 'overall id'] = "+"+str(4)
 
-def octant_transition_count(f, mod=5000):
-    num = len(f)
+# a fiunction we did in previous tuts for transition counts
+def octant_transition_count(velocity, mod=5000):
+    num = len(velocity)
     num_blocks = math.ceil(num/mod)
     l = 0
     m = mod
@@ -424,35 +425,27 @@ def octant_transition_count(f, mod=5000):
         j = j+1
         start = start + mod
         end = end + mod
-
     r = 0
     # r represents the row number which has to be checked
     row = 3
     # row represents the row where data needs to be inserted
     j = 0
-    # j represents the current block number
-
-    
-
-    # Checked till here
-    
+    # j represents the current block number    
     m = n = y = j
-
     l = 0000
     z = mod-1  # assigning mod value to m
     a = 0
     b = mod-1
-
-    f.loc[0, "     "] = ""
+    velocity.loc[0, "     "] = ""
     for x in range(num_blocks):
         if x == 0:
-            f.loc[y+2, "overall id"] = "Overall Transition Count"
+            velocity.loc[y+2, "overall id"] = "Overall Transition Count"
         else:
             y += 12
             # changing the column overall id  according to mod value
             try:
-                f.loc[y+1, "overall id"] = "Mod transition count "
-                f.loc[y+2, "overall id"] = str(a)+"-"+str(b)
+                velocity.loc[y+1, "overall id"] = "Mod transition count "
+                velocity.loc[y+2, "overall id"] = str(a)+"-"+str(b)
             except:
                  print("Row Not Found")
             j = j+1
@@ -461,26 +454,25 @@ def octant_transition_count(f, mod=5000):
             a = str(l)
 
             b = str(z)
-
     y += 12
     try:
-        f.loc[y+1, "overall id"] = "Mod transition count "
-        f.loc[y+2, "overall id"] = str(a)+"-"+str(num)
+        velocity.loc[y+1, "overall id"] = "Mod transition count "
+        velocity.loc[y+2, "overall id"] = str(a)+"-"+str(num)
     except:
         print("Row Not Found")
 
     m += 3
 
-    Lol(f, m)
+    Lol(velocity, m)
 
     n = n+4
     l = n
     
     for i in range(num):
-        Initialize(f, n, i)
+        Initialize(velocity, n, i)
 
     for i in range(num):
-        Update(f, l, i)
+        Update(velocity, l, i)
 
     n += 12
     z = n
@@ -489,7 +481,7 @@ def octant_transition_count(f, mod=5000):
         for i in range(x, mod+x-1, 1):
             if (i >= num):
                 break
-            Initialize(f, n, i)
+            Initialize(velocity, n, i)
 
         n += 12
 
@@ -498,12 +490,84 @@ def octant_transition_count(f, mod=5000):
             if (i >= num):
                 break
             l = z
-            Update(f, l, i)
+            Update(velocity, l, i)
         z += 12
 
     m += 12
 
     for x in range(num_blocks):
-        Lol(f, m)
+        Lol(velocity, m)
         m += 12
  
+
+
+
+
+def octant_analysis(mod=5000):
+    try:
+      os.mkdir('output')
+    except:
+      print("Try deleting the Octant directory, and then run the program")
+    path = os.getcwd()
+    myfiles = glob.glob(os.path.join(path,"input1", "*.xlsx"))
+    
+    for df in myfiles:
+         # df is the path name 
+        velocity = pd.read_excel(df)
+        fname = os.path.basename(df)
+        file_name  = ""
+        try:
+            i = 0
+            sz =len(fname)
+            while i < sz-5:
+                file_name += fname[i]
+                i+= 1
+        except:
+            print("Program is strictly written for .xlsx extension files ")
+        file_name += " cm_vel_octant_analysis_" + str(mod)
+        
+        trd1 = threading.Thread(target = octant_range_names, args=(velocity, mod,))
+        trd1.start()
+        trd1.join()
+        trd2 = threading.Thread(target = octant_transition_count , args=(velocity, mod,))
+        trd2.start()
+        trd2.join()
+        trd3 = threading.Thread(target = octant_longest_subsequence_count, args =(velocity,))
+        trd3.start()
+        trd3.join()
+        
+        
+        
+        # while outputting -> input file  name +" cm_vel_octant_analysis_" + str(mod)
+        velocity.to_excel(f'output/{file_name}.xlsx', index = False)
+        # f.to_excel('./combined_output.xlsx')
+        
+        
+    
+	
+#for xlxs files only
+#Read all the excel files in a batch format from the input/ folder
+#Save all the excel files in a the output/ folder
+
+from platform import python_version
+ver = python_version()
+
+if ver == "3.8.10":
+	print("Correct Version Installed")
+else:
+	print("Error: Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
+
+
+
+#mod value can be changed from here 
+
+mod=5000
+octant_analysis(mod)
+
+#
+
+
+#This shall be the last lines of the code.
+
+end_T = datetime.now()
+print('Duration of Program Execution: {}'.format(end_T - start_time))
