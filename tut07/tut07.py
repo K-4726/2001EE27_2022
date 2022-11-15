@@ -143,38 +143,38 @@ def octant_longest_subsequence_count(velocity):
             index2 += 1
 
 #Now lets integrate tut 2
-def octant_range_names(f, mod=5000):
-    num = len(f)
+def octant_range_names(velocity, mod=5000):
+    num = len(velocity)
     
     octant_name_id_mapping = {"+1 ": "Internal outward interaction", "-1 ": "External outward interaction", "+2 ": "External Ejection",
                               "-2 ": "Internal Ejection", "+3 ": "External inward interaction", "-3 ": "Internal inward interaction", "+4 ": "Internal sweep", "-4 ": "External sweep"}
-    f.loc[0, "U_Avg"] = f["U"].mean()
-    f.loc[0, "V_Avg"] = f["V"].mean()
-    f.loc[0, "W_Avg"] = f["W"].mean()
-    u_mean = f["U"].mean()
-    v_mean = f["V"].mean()
-    w_mean = f["W"].mean()
-    f["u_"] = f["U"]-u_mean
-    f["v_"] = f["V"]-v_mean
-    f["w_"] = f["W"]-w_mean
+    velocity.loc[0, "U_Avg"] = velocity["U"].mean()
+    velocity.loc[0, "V_Avg"] = velocity["V"].mean()
+    velocity.loc[0, "W_Avg"] = velocity["W"].mean()
+    u_mean = velocity["U"].mean()
+    v_mean = velocity["V"].mean()
+    w_mean = velocity["W"].mean()
+    velocity["u_"] = velocity["U"]-u_mean
+    velocity["v_"] = velocity["V"]-v_mean
+    velocity["w_"] = velocity["W"]-w_mean
 
     # creating  a octant column and giving the octant number of the particular values
-    f.loc[((f.u_ > 0) & (f.v_ > 0) & (f.w_ > 0)), "Octant"] = "+1"
-    f.loc[((f.u_ > 0) & (f.v_ > 0) & (f.w_ < 0)), "Octant"] = "-1"
-    f.loc[((f.u_ < 0) & (f.v_ > 0) & (f.w_ > 0)), "Octant"] = "+2"
-    f.loc[((f.u_ < 0) & (f.v_ > 0) & (f.w_ < 0)), "Octant"] = "-2"
-    f.loc[((f.u_ < 0) & (f.v_ < 0) & (f.w_ > 0)), "Octant"] = "+3"
-    f.loc[((f.u_ < 0) & (f.v_ < 0) & (f.w_ < 0)), "Octant"] = "-3"
-    f.loc[((f.u_ > 0) & (f.v_ < 0) & (f.w_ > 0)), "Octant"] = "+4"
-    f.loc[((f.u_ > 0) & (f.v_ < 0) & (f.w_ < 0)), "Octant"] = "-4"
-    f.loc[1, " "] = "userinput"
+    velocity.loc[((velocity.u_ > 0) & (velocity.v_ > 0) & (velocity.w_ > 0)), "Octant"] = "+1"
+    velocity.loc[((velocity.u_ > 0) & (velocity.v_ > 0) & (velocity.w_ < 0)), "Octant"] = "-1"
+    velocity.loc[((velocity.u_ < 0) & (velocity.v_ > 0) & (velocity.w_ > 0)), "Octant"] = "+2"
+    velocity.loc[((velocity.u_ < 0) & (velocity.v_ > 0) & (velocity.w_ < 0)), "Octant"] = "-2"
+    velocity.loc[((velocity.u_ < 0) & (velocity.v_ < 0) & (velocity.w_ > 0)), "Octant"] = "+3"
+    velocity.loc[((velocity.u_ < 0) & (velocity.v_ < 0) & (velocity.w_ < 0)), "Octant"] = "-3"
+    velocity.loc[((velocity.u_ > 0) & (velocity.v_ < 0) & (velocity.w_ > 0)), "Octant"] = "+4"
+    velocity.loc[((velocity.u_ > 0) & (velocity.v_ < 0) & (velocity.w_ < 0)), "Octant"] = "-4"
+    velocity.loc[1, " "] = "userinput"
 
     # finding the total count of octants of indiviual of octant
-    h_ht = f['Octant'].value_counts()
+    h_ht = velocity['Octant'].value_counts()
     # f.loc[0,"Octant Id"]="overall count"
 
-    f.loc[1, "Octant Id"] = "overall Count"
-    f.loc[2, "Octant Id"] = "mod"+" " + str(mod)
+    velocity.loc[1, "Octant Id"] = "overall Count"
+    velocity.loc[2, "Octant Id"] = "mod"+" " + str(mod)
 
     num_blocks = math.ceil(num/mod)
     l = 0
@@ -184,61 +184,61 @@ def octant_range_names(f, mod=5000):
     j = 0
     for j in range(num_blocks):
         if (start + mod > num):
-            f.loc[j+3, "Octant Id"] = str(start)+"-" + str(num-1)
+            velocity.loc[j+3, "Octant Id"] = str(start)+"-" + str(num-1)
             break
         else:
-            f.loc[j+3, "Octant Id"] = str(start)+"-" + str(end)
+            velocity.loc[j+3, "Octant Id"] = str(start)+"-" + str(end)
 
         j = j+1
         start = start + mod
         end = end + mod
 
     try:
-        f.loc[1, "+1"] = h_ht["+1"]  # column for  +1 octant (creation)
+        velocity.loc[1, "+1"] = h_ht["+1"]  # column for  +1 octant (creation)
     except:
-        f.loc[1, "+1"] = 0
+        velocity.loc[1, "+1"] = 0
     try:
-        f.loc[1, "-1"] = h_ht["-1"]  # for -1 octant
+        velocity.loc[1, "-1"] = h_ht["-1"]  # for -1 octant
     except:
-        f.loc[1, "-1"] = 0
+        velocity.loc[1, "-1"] = 0
     try:
-        f.loc[1, "+2"] = h_ht["+2"]  #  for +2 octant
+        velocity.loc[1, "+2"] = h_ht["+2"]  #  for +2 octant
     except:
-        f.loc[1, "+2"] = 0
+        velocity.loc[1, "+2"] = 0
     try:
-        f.loc[1, "-2"] = h_ht["-2"]  # for -2 octant
+        velocity.loc[1, "-2"] = h_ht["-2"]  # for -2 octant
     except:
-        f.loc[1, "-2"] = 0
+        velocity.loc[1, "-2"] = 0
     try:
-        f.loc[1, "+3"] = h_ht["+3"]  # for +3 octant
+        velocity.loc[1, "+3"] = h_ht["+3"]  # for +3 octant
     except:
-        f.loc[1, "+3"] = 0
+        velocity.loc[1, "+3"] = 0
     try:
-        f.loc[1, "-3"] = h_ht["-3"]  # for -3 octant
+        velocity.loc[1, "-3"] = h_ht["-3"]  # for -3 octant
     except:
-        f.loc[1, "-3"] = 0
+        velocity.loc[1, "-3"] = 0
     try:
-        f.loc[1, "+4"] = h_ht["+4"]  # for +4 octant
+        velocity.loc[1, "+4"] = h_ht["+4"]  # for +4 octant
     except:
-        f.loc[1, "+4"] = 0
+        velocity.loc[1, "+4"] = 0
     try:
-        f.loc[1, "-4"] = h_ht["-4"] # for -4 octant
+        velocity.loc[1, "-4"] = h_ht["-4"] # for -4 octant
     except:
-        f.loc[1, "-4"] = 0
+        velocity.loc[1, "-4"] = 0
 
 
     # creating rank columns 
     # and now for rank1 to rank8
-    f.loc[0 , "+1 "] = "Rank1"  
-    f.loc[0 , "-1 "] = "Rank2"
-    f.loc[0 , "+2 "] = "Rank3"
-    f.loc[0 , "-2 "] = "Rank4"
-    f.loc[0 , "+3 "] = "Rank5"
-    f.loc[0 , "-3 "] = "Rank6"
-    f.loc[0 , "+4 "] = "Rank7"
-    f.loc[0 , "-4 "] = "Rank8"
-    f.loc[0, "   "] = "Rank1 Octant Id"
-    f.loc[0, "    "] = "Rank1 Octant Name"
+    velocity.loc[0 , "+1 "] = "Rank1"  
+    velocity.loc[0 , "-1 "] = "Rank2"
+    velocity.loc[0 , "+2 "] = "Rank3"
+    velocity.loc[0 , "-2 "] = "Rank4"
+    velocity.loc[0 , "+3 "] = "Rank5"
+    velocity.loc[0 , "-3 "] = "Rank6"
+    velocity.loc[0 , "+4 "] = "Rank7"
+    velocity.loc[0 , "-4 "] = "Rank8"
+    velocity.loc[0, "   "] = "Rank1 Octant Id"
+    velocity.loc[0, "    "] = "Rank1 Octant Name"
     
     rank1_count = {"+1 " : 0, "-1 " : 0, "+2 ": 0, "-2 ": 0, "+3 ": 0, "-3 ": 0, "+4 ": 0, "-4 ": 0 }
     
@@ -254,21 +254,21 @@ def octant_range_names(f, mod=5000):
         
         for i in range(mod):
             try:
-                if f["Octant"][rnum] == "+1":
+                if velocity["Octant"][rnum] == "+1":
                     oct1 = oct1+1
-                elif f["Octant"][rnum] == "-1":
+                elif velocity["Octant"][rnum] == "-1":
                     oct2 += 1
-                elif f["Octant"][rnum] == "+2":
+                elif velocity["Octant"][rnum] == "+2":
                     oct3 += 1
-                elif f["Octant"][rnum] == "-2":
+                elif velocity["Octant"][rnum] == "-2":
                     oct4 += 1
-                elif f["Octant"][rnum] == "+3":
+                elif velocity["Octant"][rnum] == "+3":
                     oct5 += 1
-                elif f["Octant"][rnum] == "-3":
+                elif velocity["Octant"][rnum] == "-3":
                     oct6 += 1
-                elif f["Octant"][rnum] == "+4":
+                elif velocity["Octant"][rnum] == "+4":
                     oct7 += 1
-                elif f["Octant"][rnum] == "-4":
+                elif velocity["Octant"][rnum] == "-4":
                     oct8 += 1
             except:
                 print("Row Not found")
@@ -279,109 +279,109 @@ def octant_range_names(f, mod=5000):
                 break  # break statement
         j = j+1
         try:
-            f.loc[row, "+1"] = oct1
-            f.loc[row, "+2"] = oct3
-            f.loc[row, "-2"] = oct4
-            f.loc[row, "+3"] = oct5
-            f.loc[row, "-3"] = oct6
-            f.loc[row, "+4"] = oct7
-            f.loc[row, "-4"] = oct8
-            f.loc[row, "-1"] = oct2
+            velocity.loc[row, "+1"] = oct1
+            velocity.loc[row, "+2"] = oct3
+            velocity.loc[row, "-2"] = oct4
+            velocity.loc[row, "+3"] = oct5
+            velocity.loc[row, "-3"] = oct6
+            velocity.loc[row, "+4"] = oct7
+            velocity.loc[row, "-4"] = oct8
+            velocity.loc[row, "-1"] = oct2
         except:
             print("Index out of Bound Error")
             
         
         
-        # Tut 5 main work 
         #Before moving on to next block 
-        ls = [ oct1, oct2 , oct3 , oct4 , oct5 , oct6, oct7 , oct8]
+        lst = [ oct1, oct2 , oct3 , oct4 , oct5 , oct6, oct7 , oct8]
         st = set({})
         dict = {}
         
-        for el in ls:
+        for el in lst:
             st.add(el)
         for el in st:
             dict[el] = []
-        # found distinct octant values in st and sorted in increasing order 
+        #in st we hve octant values
+        # and sorted in increasing order
         
         i = 0
-        for el in ls:
+        for el in lst:
             dict[el].append(graph[i])
             i+= 1
         for el in st:
             dict[el].sort(reverse = True)
         
         rank1 = "Initiate"
-        # assigning rank to octants 
+        # Now for each octant we assingn the ranks 
         rank = 8
         for el in st:
             for octant in dict[el]:
                 try:
-                   f.loc[row, octant] = rank
+                   velocity.loc[row, octant] = rank
                 except:
                    print("Index out of Bound Error") 
                 if(rank == 1):
                     rank1 = octant
                 rank -=  1
                 
-        # Inserting Rank1 Octant Id and its name 
-        f.loc[row, "   "] = rank1
-        f.loc[row, "    "] = octant_name_id_mapping[rank1]
+        # add data Rank1 Octant Id and its name 
+        velocity.loc[row, "   "] = rank1
+        velocity.loc[row, "    "] = octant_name_id_mapping[rank1]
         rank1_count[rank1] += 1
         oct1 = oct2 = oct3 = oct4 = oct5 = oct6 = oct7 = oct8 = 0
         
         row = row+1
-    # inserting overall rank1 count for each octant 
+    # adding data overall rank1 count for each octant 
     row += 4
-    f.loc[row, "+1"] = "Octant Id"
-    f.loc[row , "-1"] = "Octant Name"
-    f.loc[row , "+2"] = "Count of Rank 1 Mod Values"
+    velocity.loc[row, "+1"] = "Octant Id"
+    velocity.loc[row , "-1"] = "Octant Name"
+    velocity.loc[row , "+2"] = "Count of Rank 1 Mod Values"
     
     row += 1
     cnt = 0
-    # graph2 = {0:"+1" , 1:"-1"  , 2:"+2"  , 3:"-2"  , 4:"+3"  , 5:"-3"  , 6:"+4"  , 7:"-4"}
     for key in octant_name_id_mapping:
-        f.loc[row, "+1"] = graph[cnt]
-        f.loc[row, "-1"] = octant_name_id_mapping[graph[cnt]]
-        f.loc[row, "+2"] = rank1_count[graph[cnt]]
+        velocity.loc[row, "+1"] = graph[cnt]
+        velocity.loc[row, "-1"] = octant_name_id_mapping[graph[cnt]]
+        velocity.loc[row, "+2"] = rank1_count[graph[cnt]]
         row += 1
         cnt += 1
   
-  
-# Integrating tut 5 
-def Initialize(f, n, i):
-    num = len(f)
-    try:
-       string1 = f['Octant'][i] + "  "    
-       for i in range(8):
-            f.iat[n+i, f.columns.get_loc(string1)] = 0
-    except:
-        print("Index out of Bound Error1")
 
-def Update(f, l, i):
-    num = len(f)
+#intialize function of tut 5
+def Initialize(velocity, n, i):
+    num = len(velocity)
     try:
-        string1 = f['Octant'][i]
-        string2 = f['Octant'][i+1] + "  "
+       string_1 = velocity['Octant'][i] + "  "    
+       for i in range(8):
+            velocity.iat[n+i, velocity.columns.get_loc(string_1)] = 0
+    except:
+        print("Error: Out of bounds.")
+
+def Update(velocity, l, i):
+    num = len(velocity)
+    try:
+        string1 = velocity['Octant'][i]
+        string2 = velocity['Octant'][i+1] + "  "
 
         if string1 == '+1':
-            f.iat[l, f.columns.get_loc(string2)] += 1
+            velocity.iat[l, velocity.columns.get_loc(string2)] += 1
         elif string1 == '-1':
-            f.iat[l+1, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+1, velocity.columns.get_loc(string2)] += 1
         elif string1 == '+2':
-            f.iat[l+2, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+2, velocity.columns.get_loc(string2)] += 1
         elif string1 == '-2':
-            f.iat[l+3, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+3, velocity.columns.get_loc(string2)] += 1
         elif string1 == '+3':
-            f.iat[l+4, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+4, velocity.columns.get_loc(string2)] += 1
         elif string1 == '-3':
-            f.iat[l+5, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+5, velocity.columns.get_loc(string2)] += 1
         elif string1 == '+4':
-            f.iat[l+6, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+6, velocity.columns.get_loc(string2)] += 1
         elif string1 == '-4':
-            f.iat[l+7, f.columns.get_loc(string2)] += 1
+            velocity.iat[l+7, velocity.columns.get_loc(string2)] += 1
     
     except:
         pass
-        
+  
+
   
