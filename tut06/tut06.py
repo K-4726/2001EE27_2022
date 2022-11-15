@@ -2,7 +2,7 @@ def attendance_report():
      # We obtain the list of registered students' roll numbers
     roll_nums = [str(i) for i in reg_students['Roll No']]
     # We obtain the list of dates in which lectures were taken considering all occurences of 'Monday' and 'Thursday'
-    date_list = list({datetime.strptime(str(i).split(" ")[0],"%m/%d/%Y %H:%M:%S.%f").date() for i in df['Timestamp']  if datetime.strptime(str(i).split(" ")[0],"%m/%d/%Y %H:%M:%S.%f").strftime('%a') in ['Mon','Thu']})
+    date_list = list({datetime.strptime(str(i).split(" ")[0],"%d-%m-%Y").date() for i in df['Timestamp']  if datetime.strptime(str(i).split(" ")[0],"%d-%m-%Y").strftime('%a') in ['Mon','Thu']})
     date_list.sort()
     # We define a dictionary for storing the duplicate entries for each date
     duplicate = {date : {} for date in date_list}
