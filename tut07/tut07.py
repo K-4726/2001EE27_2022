@@ -384,27 +384,126 @@ def Update(velocity, l, i):
         pass
   
 
-def Lol(f, m):
+#five space columns for given below an for integrating tut 2 
+def Lol(velocity, m):
+    num = len(velocity)
+    velocity.loc[m+1, "     "] = "From"  
+    velocity.loc[m-1, "+1  "] = "To"
+    velocity.loc[m+1, 'overall id'] = "+"+str(1)
+    velocity.loc[m+2, 'overall id'] = '-1'
+    velocity.loc[m+3, 'overall id'] = "+"+str(2)
+    velocity.loc[m+4, 'overall id'] = '-2'
+    velocity.loc[m+5, 'overall id'] = "+"+str(3)
+    velocity.loc[m+6, 'overall id'] = '-3'
+    velocity.loc[m+7, 'overall id'] = '+4'
+    velocity.loc[m, "overall id"] = "Count"
+    velocity.loc[m, "+1  "] = "+"+str(1)
+    velocity.loc[m, "-1  "] = '-1'
+    velocity.loc[m, "+2  "] = "+"+str(2)
+    velocity.loc[m, "-2  "] = '-2'
+    velocity.loc[m, "+3  "] = "+"+str(3)
+    velocity.loc[m, "-3  "] = '-3'
+    velocity.loc[m, "+4  "] = "+"+str(4)
+    velocity.loc[m, "-4  "] = '-4'
+    velocity.loc[m+8, 'overall id'] = "+"+str(4)
+
+def octant_transition_count(f, mod=5000):
     num = len(f)
-    # Creating  a five spaces empty column for "from" , "overall id", "+1  ".... "-4  " for integrating 2nd tutorial 
-    f.loc[m+1, "     "] = "From"  
-    f.loc[m-1, "+1  "] = "To"
-    f.loc[m+1, 'overall id'] = "+"+str(1)
-    f.loc[m+2, 'overall id'] = '-1'
-    f.loc[m+3, 'overall id'] = "+"+str(2)
-    f.loc[m+4, 'overall id'] = '-2'
-    f.loc[m+5, 'overall id'] = "+"+str(3)
-    f.loc[m+6, 'overall id'] = '-3'
-    f.loc[m+7, 'overall id'] = '+4'
-    f.loc[m, "overall id"] = "Count"
-    f.loc[m, "+1  "] = "+"+str(1)
-    f.loc[m, "-1  "] = '-1'
-    f.loc[m, "+2  "] = "+"+str(2)
-    f.loc[m, "-2  "] = '-2'
-    f.loc[m, "+3  "] = "+"+str(3)
-    f.loc[m, "-3  "] = '-3'
-    f.loc[m, "+4  "] = "+"+str(4)
-    f.loc[m, "-4  "] = '-4'
-    f.loc[m+8, 'overall id'] = "+"+str(4)
+    num_blocks = math.ceil(num/mod)
+    l = 0
+    m = mod
+    start = 0
+    end = m-1
+    j = 0
+    for j in range(num_blocks):
+        if (start + mod > num):
+            break
+        else:
+            pass
 
+        j = j+1
+        start = start + mod
+        end = end + mod
 
+    r = 0
+    # r represents the row number which has to be checked
+    row = 3
+    # row represents the row where data needs to be inserted
+    j = 0
+    # j represents the current block number
+
+    
+
+    # Checked till here
+    
+    m = n = y = j
+
+    l = 0000
+    z = mod-1  # assigning mod value to m
+    a = 0
+    b = mod-1
+
+    f.loc[0, "     "] = ""
+    for x in range(num_blocks):
+        if x == 0:
+            f.loc[y+2, "overall id"] = "Overall Transition Count"
+        else:
+            y += 12
+            # changing the column overall id  according to mod value
+            try:
+                f.loc[y+1, "overall id"] = "Mod transition count "
+                f.loc[y+2, "overall id"] = str(a)+"-"+str(b)
+            except:
+                 print("Row Not Found")
+            j = j+1
+            l = z+1
+            z = z+mod
+            a = str(l)
+
+            b = str(z)
+
+    y += 12
+    try:
+        f.loc[y+1, "overall id"] = "Mod transition count "
+        f.loc[y+2, "overall id"] = str(a)+"-"+str(num)
+    except:
+        print("Row Not Found")
+
+    m += 3
+
+    Lol(f, m)
+
+    n = n+4
+    l = n
+    
+    for i in range(num):
+        Initialize(f, n, i)
+
+    for i in range(num):
+        Update(f, l, i)
+
+    n += 12
+    z = n
+
+    for x in range(0, num, mod):
+        for i in range(x, mod+x-1, 1):
+            if (i >= num):
+                break
+            Initialize(f, n, i)
+
+        n += 12
+
+    for x in range(0, num, mod):
+        for i in range(x, mod+x-1, 1):
+            if (i >= num):
+                break
+            l = z
+            Update(f, l, i)
+        z += 12
+
+    m += 12
+
+    for x in range(num_blocks):
+        Lol(f, m)
+        m += 12
+ 
