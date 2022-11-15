@@ -63,7 +63,7 @@ def attendance_report():
                 individual.at[j+1, 'Real']=0
             individual.at[j+1, 'total_attendance_count']=individual.at[j+1, 'Real']+individual.at[j+1,'invalid']+individual.at[j+1, 'duplicate']
         try:
-            individual.to_excel('output1/' + reg_students['Roll No'][i] + '.xlsx',index=False)
+            individual.to_excel('output/' + reg_students['Roll No'][i] + '.xlsx',index=False)
         except PermissionError:
             print("You don't have the permission to read/write in this directory. Please grant permission or change the working directory")
 
@@ -93,7 +93,7 @@ try:
     actual_attendance=[]
     attendance_report()
     try:
-        dfc.to_excel('./output1/attendance_report_consolidated1.xlsx',index=False)
+        dfc.to_excel('./output/attendance_report_consolidated1.xlsx',index=False)
     except:
         print("You don't have the permission to read/write in this directory. Please grant permission or change the working directory")
 
