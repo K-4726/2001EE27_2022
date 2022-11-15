@@ -384,4 +384,27 @@ def Update(velocity, l, i):
         pass
   
 
-  
+def Lol(f, m):
+    num = len(f)
+    # Creating  a five spaces empty column for "from" , "overall id", "+1  ".... "-4  " for integrating 2nd tutorial 
+    f.loc[m+1, "     "] = "From"  
+    f.loc[m-1, "+1  "] = "To"
+    f.loc[m+1, 'overall id'] = "+"+str(1)
+    f.loc[m+2, 'overall id'] = '-1'
+    f.loc[m+3, 'overall id'] = "+"+str(2)
+    f.loc[m+4, 'overall id'] = '-2'
+    f.loc[m+5, 'overall id'] = "+"+str(3)
+    f.loc[m+6, 'overall id'] = '-3'
+    f.loc[m+7, 'overall id'] = '+4'
+    f.loc[m, "overall id"] = "Count"
+    f.loc[m, "+1  "] = "+"+str(1)
+    f.loc[m, "-1  "] = '-1'
+    f.loc[m, "+2  "] = "+"+str(2)
+    f.loc[m, "-2  "] = '-2'
+    f.loc[m, "+3  "] = "+"+str(3)
+    f.loc[m, "-3  "] = '-3'
+    f.loc[m, "+4  "] = "+"+str(4)
+    f.loc[m, "-4  "] = '-4'
+    f.loc[m+8, 'overall id'] = "+"+str(4)
+
+
