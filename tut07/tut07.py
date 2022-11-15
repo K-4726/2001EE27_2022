@@ -504,6 +504,7 @@ def octant_transition_count(velocity, mod=5000):
 
 
 def octant_analysis(mod=5000):
+    print("Please wait while output files are created.")
     try:
       os.mkdir('output')
     except:
@@ -568,6 +569,6 @@ octant_analysis(mod)
 
 
 #This shall be the last lines of the code.
-
+print("Output files are ready :] ")
 end_T = datetime.now()
 print('Duration of Program Execution: {}'.format(end_T - start_time))
