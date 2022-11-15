@@ -1,20 +1,26 @@
 def attendance_report():
-     # We obtain the list of registered students' roll numbers
+    
+    print("Please wait: Attendance function called successfully.")
+     
     roll_nums = [str(i) for i in reg_students['Roll No']]
-    # We obtain the list of dates in which lectures were taken considering all occurences of 'Monday' and 'Thursday'
+    #we got the list of registered students given to us
+   
+    #to get list of dates in which lectures were taken
     date_list = list({datetime.strptime(str(i).split(" ")[0],"%d-%m-%Y").date() for i in df['Timestamp']  if datetime.strptime(str(i).split(" ")[0],"%d-%m-%Y").strftime('%a') in ['Mon','Thu']})
     date_list.sort()
+
     # We define a dictionary for storing the duplicate entries for each date
     duplicate = {date : {} for date in date_list}
     duplicate_info = {roll_number : {date.strftime('%d-%m-%Y') : 0 for date in date_list} for roll_number in roll_nums}
     attended_dates = {roll_number : [] for roll_number in roll_nums}
     fake_attendance=[]
     fake_info = {roll_number : {date.strftime('%d-%m-%Y') : 0 for date in date_list} for roll_number in roll_nums}
-    #for loop for finding the students who have actual attendence, fake attendance, duplicate attendance
+    
+    
     for i in range(len(df['Timestamp'])):
         date_obj = datetime.strptime(str(df['Timestamp'][i]), '%d-%m-%Y %H:%M')
         date = date_obj.date()
-        #Check if the person attended the class on monday or thursday
+        #Verify if the person attended the class on monday or thursday
         if date_obj.weekday() == 0 or date_obj.weekday() == 3:
             if(date_obj.hour<14 or date_obj.hour>=15):
                 fake_attendance.append((str(df['Attendance'][i])).split(" ")[0])
@@ -33,13 +39,17 @@ def attendance_report():
         else:
             fake_attendance.append((str(df['Attendance'][i])).split(" ")[0])
 
-    #Printing the attendance report for each student and also a consolidated report
+    #Next task to create individual reports and consolidateed report
+    
     for i in range(len(reg_students['Name'])):
         for date in date_list:
-            if date.strftime('%d-%m-%Y') in attended_dates[reg_students['Roll No'][i]]:
-                dfc.at[i, date.strftime('%d-%m-%Y')]='P'
-            else:
-                dfc.at[i, date.strftime('%d-%m-%Y')]='A'
+            try:
+             if date.strftime('%d-%m-%Y') in attended_dates[reg_students['Roll No'][i]]:
+                 dfc.at[i, date.strftime('%d-%m-%Y')]='P'
+             else:
+                 dfc.at[i, date.strftime('%d-%m-%Y')]='A'
+            except:
+                print("Error in making file")
         dfc.at[i,'Actual Lecture Taken']=len(date_list)
         dfc.at[i,'Total Real Attendance']=actual_attendance.count(reg_students['Roll No'][i])
         dfc.at[i,'Percentage (attendance_count_actual/total_lecture_taken) 2 digit decimal']=(round((dfc['Total Real Attendance'][i]/len(date_list))*100,2))
@@ -82,7 +92,7 @@ try:
         print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
     import pandas as pd
     import csv
-    # We read the input files into a pandas dataframe each
+    
     reg_students=pd.read_csv("input_registered_students.csv")
     df=pd.read_csv("input_attendance.csv")
     dfc=pd.DataFrame()
@@ -91,20 +101,28 @@ try:
     dfc['Name']=reg_students['Name'].copy()
 
     actual_attendance=[]
-    attendance_report()
+    try:
+     attendance_report()
+    except:
+     print("Error while fumction calling")
     try:
         dfc.to_excel('./output/attendance_report_consolidated1.xlsx',index=False)
     except:
         print("You don't have the permission to read/write in this directory. Please grant permission or change the working directory")
 
 except FileNotFoundError:
-    #Print file not found error if the file is not existing the directory
+  
     print("File could not be found in the parent directory")
+
 except ImportError:
-    #If the pandas module is not installed, error is shown and program closes
+    
     print("Sorry, module 'Pandas' could not be imported")
+
 except PermissionError:
     print("You don't have the permission to read/write in this directory. Please grant permission or change the working directory")
-#This shall be the last lines of the code.
+
+
+#these are last lines of the code
+print("Output files are created successfully :] ")   
 end_time = datetime.now()
 print('Duration of Program Execution: {}'.format(end_time - start_time))
