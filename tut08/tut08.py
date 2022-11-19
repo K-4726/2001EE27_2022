@@ -130,6 +130,51 @@ def scorecard():
 					innings['bowling'][bowler_curr]['runs'] += 6
 					innings['bowling'][bowler_curr]['balls'] += 1
 					innings['batting'][batter_curr]['6s'] += 1
+                elif outcome.split(" ")[0].strip() == "out":
+					innings['balls'] += 1
+					innings['wickets'] += 1	
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['bowling'][bowler_curr]['wickets'] += 1
+					innings['bowling'][bowler_curr]['balls'] += 1
+					innings['fow'].append(f"{innings['runs']}-{innings['wickets']} {batter_curr}, {over}")
+					if outcome.startswith('out Caught by'):
+						innings['batting'][batter_curr]['Status'] = f"c {outcome.split('!!')[0].split('out Caught by', 1)[1].strip()} b {bowler_curr}"
+					elif outcome.startswith('out Bowled!!'):
+						innings['batting'][batter_curr]['Status'] = f"b {bowler_curr}"
+					elif outcome.startswith('out Lbw!!'):
+						innings['batting'][batter_curr]['Status'] = f"lbw b {bowler_curr}"
+				elif outcome == "byes" or outcome == "leg byes":
+					innings['balls'] += 1
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['balls'] += 1
+					runs = info.split(",")[2].strip()
+					if(runs == 'no run'):
+						continue
+					elif(runs == '1 run'):
+						innings['runs'] += 1
+						if outcome == "byes":
+							innings['Extras']['byes'] += 1
+						else:
+							innings['Extras']['lb'] += 1
+					elif(runs == '2 runs'):
+						innings['runs'] += 2
+						if outcome == "byes":
+							innings['Extras']['byes'] += 2
+						else:
+							innings['Extras']['lb'] += 2
+					elif(runs == '3 runs'):
+						innings['runs'] += 3
+						if outcome == "byes":
+							innings['Extras']['byes'] += 3
+						else:
+							innings['Extras']['lb'] += 3
+					elif(runs == 'FOUR'):
+						innings['runs'] += 4
+						if outcome == "byes":
+							innings['Extras']['byes'] += 4
+						else:
+							innings['Extras']['lb'] += 4
 
 from platform import python_version
 ver = python_version()
