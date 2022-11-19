@@ -510,7 +510,7 @@ def octant_analysis(mod=5000):
     except:
       print("Try deleting the Octant directory, and then run the program")
     path = os.getcwd()
-    myfiles = glob.glob(os.path.join(path,"input1", "*.xlsx"))
+    myfiles = glob.glob(os.path.join(path,"input", "*.xlsx"))
     
     for df in myfiles:
          # df is the path name 
