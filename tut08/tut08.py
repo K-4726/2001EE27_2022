@@ -45,8 +45,31 @@ def scorecard():
 				# if a new player enters the field, that player is removed from the did not bat list
 				if batter_curr in innings['dnb']:
 					innings['dnb'].remove(batter_curr)
-				
 
+        # updating scoreboard all types of balls and runs
+				if outcome == "no run":
+					innings['balls']+=1
+					innings['batting'][batter_curr]['balls']+=1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['balls']+=1		
+                if outcome == "no ball":
+					innings['runs']+=1
+					innings['bowling'][bowler_curr]['nb']+=1
+					innings['bowling'][bowler_curr]['runs']+=1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['Extras']['nb'] += 1
+				elif outcome == "wide":
+					innings['runs']+=1
+					innings['Extras']['wide'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['runs'] += 1
+					innings['bowling'][bowler_curr]['wide'] += 1
+				elif outcome == '2 wides':
+					innings['runs'] += 2
+					innings['Extras']['wide'] += 2
+					innings['bowling'][bowler_curr]['runs'] += 2
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['wide'] += 2
 
 from platform import python_version
 ver = python_version()
