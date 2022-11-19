@@ -34,6 +34,19 @@ def scorecard():
 				outcome = info.split(",")[1].strip()
 				over=info.split(",")[0].split(" ", 1)[0].strip()
 
+                # here when a bowler_curr starts his over, his runs initially is stored in a variable, it is used for finding maiden over
+				if innings['bowling'][bowler_curr]['balls']%6==0:
+					initial=innings['bowling'][bowler_curr]['runs']
+
+				# if 6 over is over, then runs for the powerplay is updated
+				if(innings['balls']==36):
+					innings['powerplay'] = innings['runs']
+
+				# if a new player enters the field, that player is removed from the did not bat list
+				if batter_curr in innings['dnb']:
+					innings['dnb'].remove(batter_curr)
+				
+
 
 from platform import python_version
 ver = python_version()
