@@ -174,7 +174,57 @@ def scorecard():
 						if outcome == "byes":
 							innings['Extras']['byes'] += 4
 						else:
-							innings['Extras']['lb'] += 4
+				    			innings['Extras']['lb'] += 4
+                
+                # if condition checks if the runs given to the batsman by the bowler by the end of the over
+				
+				if innings['bowling'][bowler_curr]['balls']%6==0:
+					if innings['bowling'][bowler_curr]['runs']==initial:
+						innings['bowling'][bowler_curr]['maidens']+=1
+
+			# From here onwards is the code to display the scoreboard
+			if cnt==0:
+				print(f"{'Pakistan Innings' : <50}{f'''{innings['runs']}-{innings['wickets']} ({over} Ov)''' : >90}", file=output)
+				cnt+=1
+			else:
+				print(f"{'Indian Innings' : <50}{f'''{innings['runs']}-{innings['wickets']} ({over} Ov)''' : >90}", file=output)
+			print("", file=output)
+			
+            # Display the details of all the batter_currs
+			print(f"{'': <25}{'batter_curr' : <25}{'' : <50}{'R' : >8}{'B' : >8}{'4s' : >8}{'6s' : >8}{'SR' : >12}", file=output)
+			for batsman, data in innings['batting'].items():
+				if data['Status'] != '':
+					print(f"{'': <25}{batsman : <25}{data['Status'] : <50}{data['runs'] : >8}{data['balls'] : >8}{data['4s'] : >8}{data['6s'] : >8}{round((data['runs']/data['balls'])*100, 2) : >12}", file=output)
+			print("", file=output)
+			print(f"{'': <25}{'Extras' : <50}{innings['Extras']['wide'] : >44}", file=output)
+			print(f"{'': <25}{'Total' : <50}{f'''{innings['runs']} ({innings['wickets']} wkts, {over} Ov)''' : >44}", file=output)
+			
+            # Display the names of the batter_currs who did not bat
+			if innings['dnb']:
+				print(f"{'': <25}{'Did not Bat' : <50}{', '.join(innings['dnb']) : >44}", file=output)
+			print("", file=output)
+
+			# Display the details of all the fall of wickets
+			print(f"{'' :<25}""Fall of Wickets", file=output)
+			wickets = ", ".join(innings['fow'])
+			print(f"{'' :<25}{wickets : ^100}{'' :>25}", file=output)
+			print("", file=output)
+
+			# Display the details of all the bowler_currs
+			print(f"{'': <25}{'bowler_curr' : <25}{'' : <50}{'O' : >7}{'M' : >10}{'R' : >8}{'W' : >8}{'NB' : >8}{'WD' : >8}{'ECO' : >12}", file=output)
+			for bowler_curr, data in innings['bowling'].items():
+				if data['balls']:
+					total_overs=data['balls']//6
+					extra_balls=data['balls']%6
+					overall_overs=str(total_overs)+'.'+str(extra_balls)
+					print(f"{'': <25}{bowler_curr : <25}{'' : <50}{overall_overs : >9}{data['maidens'] : >8}{data['runs'] : >8}{data['wickets'] : >8}{data['nb'] : >8}{data['wide'] : >8}{round(data['runs']/(total_overs+(extra_balls/6)),1) : >12}", file=output)
+			print("", file=output)
+
+			# Display the runs taken in powerplay
+			print(f"{'': <25}{'Powerplays' : <15}{'Overs' : >15}{'Runs' : >15}", file=output)
+			print(f"{'': <25}{'Mandatory' : <15}{'0.1-6' : >15}{innings['powerplay']: >15}", file=output)
+			print("", file=output)
+
 
 from platform import python_version
 ver = python_version()
