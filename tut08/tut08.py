@@ -70,6 +70,66 @@ def scorecard():
 					innings['bowling'][bowler_curr]['runs'] += 2
 					innings['batting'][batter_curr]['Status']="not out"
 					innings['bowling'][bowler_curr]['wide'] += 2
+                elif outcome == '3 wides':
+					innings['runs'] += 3
+					innings['Extras']['wide'] += 3
+					innings['bowling'][bowler_curr]['runs'] += 3
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['wide'] += 3
+				elif outcome == '4 wides':
+					innings['runs'] += 4
+					innings['Extras']['wide'] += 4
+					innings['bowling'][bowler_curr]['runs'] += 4
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['wide'] += 4
+				elif outcome == '5 wides':
+					innings['runs'] += 5
+					innings['Extras']['wide'] += 5
+					innings['bowling'][bowler_curr]['runs'] += 5
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['wide'] += 5
+                elif outcome == "1 run":
+					innings['balls'] += 1
+					innings['runs'] += 1
+					innings['batting'][batter_curr]['runs'] += 1
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['runs'] += 1
+					innings['bowling'][bowler_curr]['balls'] += 1
+				elif outcome == "2 runs":
+					innings['balls'] += 1
+					innings['runs'] += 2
+					innings['batting'][batter_curr]['runs'] += 2
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['runs'] += 2
+					innings['bowling'][bowler_curr]['balls'] += 1
+				elif outcome == "3 runs":
+					innings['balls'] += 1
+					innings['runs'] += 3
+					innings['batting'][batter_curr]['runs'] += 3
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['runs'] += 3
+					innings['bowling'][bowler_curr]['balls'] += 1
+				elif outcome == "FOUR":
+					innings['balls'] += 1
+					innings['runs'] += 4
+					innings['batting'][batter_curr]['runs'] += 4
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['runs'] += 4
+					innings['bowling'][bowler_curr]['balls'] += 1
+					innings['batting'][batter_curr]['4s'] += 1
+				elif outcome == "SIX":
+					innings['balls'] += 1
+					innings['runs'] += 6
+					innings['batting'][batter_curr]['runs'] += 6
+					innings['batting'][batter_curr]['balls'] += 1
+					innings['batting'][batter_curr]['Status']="not out"
+					innings['bowling'][bowler_curr]['runs'] += 6
+					innings['bowling'][bowler_curr]['balls'] += 1
+					innings['batting'][batter_curr]['6s'] += 1
 
 from platform import python_version
 ver = python_version()
