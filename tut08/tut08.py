@@ -8,16 +8,16 @@ def getPlayer(player):
 			return person
 
 def scorecard():
-    print("The function was called sucessfully.")
-    print("Please wait while the output file is created.")
-	#the informationon the scoreboard will be stored in this dictionary
-    innings1 = {'runs': 0, 'wickets': 0, 'balls': 0, 'batting': {player : {'runs': 0, 'balls': 0, '4s': 0, '6s': 0, 'status': ''} for player in pak_players}, 'bowling': {player : {'runs': 0, 'balls': 0, 'maidens': 0, 'wickets': 0, 'nb': 0, 'wide': 0} for player in ind_players}, 'extras': {'byes': 0, 'nb': 0, 'lb': 0, 'wide': 0, 'pty': 0}, 'dnb': pak_players.copy(), 'fow': [], 'powerplay': 0}
-    innings2 = {'runs': 0, 'wickets': 0, 'balls': 0, 'batting': {player : {'runs': 0, 'balls': 0, '4s': 0, '6s': 0, 'status': ''} for player in ind_players}, 'bowling': {player : {'runs': 0, 'balls': 0, 'maidens': 0, 'wickets': 0, 'nb': 0, 'wide': 0} for player in pak_players}, 'extras': {'byes': 0, 'nb': 0, 'lb': 0, 'wide': 0, 'pty': 0}, 'dnb': ind_players.copy(), 'fow': [], 'powerplay': 0}
-    #For finding maiden over we have to store runs gave by the bowler_curr before giving the over
-	initial=-1
+    		print("The function was called sucessfully.")
+    		print("Please wait while the output file is created.")
+			#the informationon the scoreboard will be stored in this dictionary
+            innings1 = {'runs': 0, 'wickets': 0, 'balls': 0, 'batting': {player : {'runs': 0, 'balls': 0, '4s': 0, '6s': 0, 'status': ''} for player in pak_players}, 'bowling': {player : {'runs': 0, 'balls': 0, 'maidens': 0, 'wickets': 0, 'nb': 0, 'wide': 0} for player in ind_players}, 'extras': {'byes': 0, 'nb': 0, 'lb': 0, 'wide': 0, 'pty': 0}, 'dnb': pak_players.copy(), 'fow': [], 'powerplay': 0}
+			innings2 = {'runs': 0, 'wickets': 0, 'balls': 0, 'batting': {player : {'runs': 0, 'balls': 0, '4s': 0, '6s': 0, 'status': ''} for player in ind_players}, 'bowling': {player : {'runs': 0, 'balls': 0, 'maidens': 0, 'wickets': 0, 'nb': 0, 'wide': 0} for player in pak_players}, 'extras': {'byes': 0, 'nb': 0, 'lb': 0, 'wide': 0, 'pty': 0}, 'dnb': ind_players.copy(), 'fow': [], 'powerplay': 0}
+    		#For finding maiden over we have to store runs gave by the bowler_curr before giving the over
+			initial=-1
 
-	#Creating output of scoreboard by reading the inning files
-	with open('pak_inns1.txt', 'r') as pakistan_inns, open('india_inns2.txt', 'r') as india_inns, open('output.txt','w') as output:
+			#Creating output of scoreboard by reading the inning files
+			with open('pak_inns1.txt', 'r') as pakistan_inns, open('india_inns2.txt', 'r') as india_inns, open('output.txt','w') as output:
 		# Input file reading is done now
 		tot_lines1 = pakistan_inns.readlines()
 		tot_lines2 = india_inns.readlines()
@@ -253,3 +253,5 @@ except:
 end_time = datetime.now()
 print("Output files are ready :] ")
 print('Duration of Program Execution: {}'.format(end_time - start_time))
+
+

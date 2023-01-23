@@ -1,5 +1,5 @@
 
-Pakistan Innings                                                                                                            147-10 (19.5 Ov)
+Pakistan inns                                                                                                               147-10 (19.5 Ov)
 
                          Batter                                                                            R       B      4s      6s          SR
                          Babar Azam (c)           c Arshdeep Singh b Bhuvneshwar Kumar                    10       9       2       0      111.11
@@ -31,7 +31,7 @@ Pakistan Innings                                                                
                          Powerplays               Overs           Runs
                          Mandatory                0.1-6             43
 
-Indian Innings                                                                                                               148-5 (19.4 Ov)
+Indian inns                                                                                                                  148-5 (19.4 Ov)
 
                          Batter                                                                            R       B      4s      6s          SR
                          Rohit Sharma (c)         c Iftikhar Ahmed b Mohammad Nawaz                       12      18       0       1       66.67
